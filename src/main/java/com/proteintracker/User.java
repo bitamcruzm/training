@@ -5,25 +5,27 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.Collection;
 
 /**
  * @author Andrea Marcela Cruz Moreno, bridgingIT
  */
-@Data
+ 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User {
+class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
     @NotNull
     String name;
-    @Embedded
+    @OneToOne(cascade = CascadeType.ALL)
     ProteinData proteinData;
     @OneToMany(cascade = CascadeType.ALL)
-    Set<UserHistory> histories;
+    Collection<UserHistory> histories;
+    @ManyToMany(cascade = CascadeType.ALL)
+    Collection<GoalAlert> goalAlerts;
 }
